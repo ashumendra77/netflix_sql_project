@@ -1,11 +1,11 @@
 # netflix_sql_project
 
-  select * from nextflix;
+       select * from nextflix;
 
 
 # 1. Count the number of Movies vs TV Shows
 
-  select 
+        select 
 	type,count(*) total_count
  	from nextflix
 	group by 1
@@ -14,7 +14,8 @@
 
 	
 # 2. Find the most common rating for movies and TV shows
-  with cte as (
+        
+	with cte as (
 	select type,rating ,count(*) total_count,
 	rank()over(partition by type order by count(*) desc) rnk
 	from nextflix
@@ -26,7 +27,8 @@
 	where rnk=1
 	
 # 3. List all movies released in a specific year (e.g., 2020)
-  select * from nextflix 
+        
+	select * from nextflix 
 	where type = 'Movie' and release_year = 2020
 	
 # 4. Find the top 5 countries with the most content on Netflix
@@ -41,13 +43,15 @@
 
 	
 # 5. Identify the longest movie
-  select * from nextflix
+        
+	select * from nextflix
 	where duration = ( select max(duration) from nextflix)
 	and  type = 'Movie'
 
 
 # 6. Find content added in the last 5 years
-  select * from nextflix 
+        
+	select * from nextflix 
 	where date_added>= current_date - Interval '5 year'    
 	
 # 7. Find all the movies/TV shows by director 'Rajiv Chilaka'!
@@ -75,7 +79,7 @@
 	select 
 	extract(year from date_added) as year , 
 	count(show_id),
-  round(count(show_id)::numeric /(select count(*) from nextflix where country = 'India')::numeric *100,2) as content_avg    
+        round(count(show_id)::numeric /(select count(*) from nextflix where country = 'India')::numeric *100,2) as content_avg    
 	from nextflix  
 	where country= 'India'
 	group by 1
@@ -96,7 +100,7 @@
 	
 # 13. Find how many movies actor 'Salman Khan' appeared in last 10 years!
 
-  select * from nextflix
+        select * from nextflix
 	where type = 'Movie' and casts like '%Salman Khan%' 
 	and release_year > extract(year from  current_date) - 10
 	
@@ -116,10 +120,10 @@
 
 
 	select 
-  case 
+        case 
 	when  description ilike '%kill%' or description ilike  '%violence%' then 'Bad' 
-  else 'Good'
-  end category,
+        else 'Good'
+        end category,
 	count(show_id)
-  from nextflix
-  group by category
+        from nextflix
+        group by category
